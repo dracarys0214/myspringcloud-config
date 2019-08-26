@@ -1,0 +1,26 @@
+server:
+  port: 9002
+
+spring:
+  application:
+    name: service-turbine
+
+eureka:
+  client:
+    register-with-eureka: false #false表示不向注册中心注册。
+    serviceUrl:
+      defaultZone: http://eureka7001.com:7001/eureka/,http://eureka7002.com:7002/eureka/,http://eureka7003.com:7003/eureka/
+  #instance:
+    # 启用ip配置 这样在注册中心列表中看见的是以ip+端口呈现的
+    #prefer-ip-address: true
+    # 实例名称  最后呈现地址：ip:2000
+    #instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+# turbine配置
+turbine:
+  # 需要监控的应用名称，默认逗号隔开，内部使用Stringutils.commaDelimitedListToStringArray分割
+  app-config: myspringcloud-dept
+  # false 时 在本机才是时 监控中host集群数会为1了 因为本地host是一样的
+  combine-host-port: true
+  # 集群名称
+  cluster-name-expression: new String('default')

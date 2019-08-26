@@ -1,0 +1,31 @@
+server:
+  port: 6001
+
+spring:
+  application:
+    name: myspringcloud-zuul-gateway-6001
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka,http://eureka7003.com:7003/eureka
+  instance:
+    instance-id: myspringcloud-zuul-gateway-6001
+    prefer-ip-address: true
+
+#Eureka注册中心中，provider/client的信息说明
+info:
+  app.name: com.jy.springcloud
+  company.name: www.jy.com
+  build.artifactId: $project.artifactId$ #从配置信息中读取
+  build.version: $project.version$
+  jy: 自定义信息测试
+
+#路由配置，自带ribbon负载均衡（轮询）
+zuul:
+  prefix: /jy #前缀，服务名称前不许加上它
+  #ignored-services: "mypspringcloud-dept" #忽略该服务名称，无法使用该服务名称访问Controller
+  ignored-services: "*" #忽略所有服务的真实名称，无法使用真实名称访问Controller
+  routes: #虚拟服务名称 映射 真实服务名称
+    mydept.serviceId: myspringcloud-dept #真实服务名称
+    mydept.path: /mydept/** #虚拟服务名称
